@@ -4,6 +4,14 @@ Traffic generator for the BRC-148 BEEF object plane: `beef-gen` submits BEEF
 submission records (topic list + BEEF object) to a shard-proxy ingress port —
 the open tx port (8725) or the dedicated BEEF lane (8728).
 
+It is the **reference producer** for the
+[BRC-149](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0149.md)
+submission-record format on the
+[BRC-148](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0148.md)
+BEEF object plane (both currently in submission). The wire codecs live in
+[shard-common](https://github.com/lightwebinc/shard-common) `objfmt`; this repo
+exercises them end to end.
+
 Objects are synthetic (valid BEEF-family leading marker + seeded bytes; the
 fabric never parses past the marker) or the real BRC-62 specification example
 (`-encoding real`) for verbatim-carriage proofs. Every record is self-verified
