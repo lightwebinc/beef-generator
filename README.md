@@ -8,7 +8,7 @@ It is the **reference producer** for the
 [BRC-149](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0149.md)
 submission-record format on the
 [BRC-148](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0148.md)
-BEEF object plane (both currently in submission). The wire codecs live in
+BEEF object plane. The wire codecs live in
 [shard-common](https://github.com/lightwebinc/shard-common) `objfmt`; this repo
 exercises them end to end.
 
@@ -20,7 +20,7 @@ ingress dedup never suppresses generator traffic.
 
 ```sh
 go build ./cmd/beef-gen
-./beef-gen -addr '[::1]:8725' -topics tm_demo,tm_other -count 100
+./beef-gen -addr '[::1]:8725' -topics tm_demo -count 100
 ```
 
 See [docs/architecture.md](docs/architecture.md) and
