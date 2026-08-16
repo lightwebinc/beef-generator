@@ -24,5 +24,8 @@ go build ./cmd/beef-gen
 ```
 
 See [docs/architecture.md](docs/architecture.md) and
-[docs/configuration.md](docs/configuration.md). Canonical spec:
-`bsv-multicast/docs/brc-148-shard-domain-beef-plane.md`.
+[docs/configuration.md](docs/configuration.md). Canonical specs:
+[BRC-148](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0148.md)
+and [BRC-149](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0149.md);
+detailed design and rationale in the
+[bsv-multicast docs](https://github.com/lightwebinc/bsv-multicast/blob/main/docs/brc-148-shard-domain-beef-plane.md).
