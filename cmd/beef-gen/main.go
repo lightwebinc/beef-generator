@@ -43,6 +43,7 @@ const beefVectorHex = "0100beef01fe636d0c0007021400fe507c0c7aa754cef1f7889d5fd39
 func main() {
 	var (
 		addr        = flag.String("addr", "[::1]:8725", "proxy ingress TCP address (open tx port, or the dedicated BEEF lane)")
+		bind        = flag.String("bind", "", "local source address to emit from (host or host:port; empty = kernel default)")
 		topicsFlag  = flag.String("topics", "tm_demo", "comma-separated overlay topic names for every submission")
 		encoding    = flag.String("encoding", "beef", "object encoding: beef|beefv2|atomic|real (real = BRC-62 spec example, verbatim)")
 		objectBytes = flag.Int("object-bytes", 64, "synthetic object size in bytes (>= 16; ignored by -encoding real)")
@@ -71,7 +72,7 @@ func main() {
 	}
 
 	rng := rand.New(rand.NewSource(*seed))
-	conn := dial(ctx, *addr)
+	conn := dial(ctx, *addr, *bind)
 	if conn == nil {
 		os.Exit(1)
 	}
@@ -99,7 +100,7 @@ func main() {
 		if _, err := conn.Write(rec); err != nil {
 			log.Printf("beef-gen: write error (%v); reconnecting", err)
 			_ = conn.Close()
-			conn = dial(ctx, *addr)
+			conn = dial(ctx, *addr, *bind)
 			if conn == nil {
 				break
 			}
@@ -164,11 +165,17 @@ func buildObject(encoding string, size int, n uint64, rng *rand.Rand) ([]byte, e
 	return obj, nil
 }
 
-// dial connects with exponential backoff until ctx is done.
-func dial(ctx context.Context, addr string) net.Conn {
+// dial connects with exponential backoff until ctx is done. A non-empty bind
+// selects the local source address, which is how one host exercises the
+// proxy's per-source ingress budget from several distinct prefixes at once.
+func dial(ctx context.Context, addr, bind string) net.Conn {
+	local, err := localAddr(bind)
+	if err != nil {
+		log.Fatalf("beef-gen: -bind %q: %v", bind, err)
+	}
 	backoff := 100 * time.Millisecond
 	for {
-		d := net.Dialer{Timeout: 2 * time.Second}
+		d := net.Dialer{Timeout: 2 * time.Second, LocalAddr: local}
 		conn, err := d.DialContext(ctx, "tcp", addr)
 		if err == nil {
 			return conn
@@ -183,4 +190,16 @@ func dial(ctx context.Context, addr string) net.Conn {
 			backoff *= 2
 		}
 	}
+}
+
+// localAddr resolves a -bind value. A bare host gets an ephemeral port, so the
+// common case does not have to invent one.
+func localAddr(bind string) (net.Addr, error) {
+	if bind == "" {
+		return nil, nil
+	}
+	if _, _, err := net.SplitHostPort(bind); err != nil {
+		bind = net.JoinHostPort(bind, "0")
+	}
+	return net.ResolveTCPAddr("tcp", bind)
 }
