@@ -5,8 +5,11 @@
 //
 //	u16 tag 0xBEEF ∥ u8 recordVer ∥ u8 topicCount ∥ topics ∥ u32 objectLen ∥ object
 //
-// One record names one BEEF object to one or more topics; the proxy expands
-// it into one FrameVer 0x09 multicast frame per topic. Objects are either
+// One record names one BEEF object to one or more topics; the proxy carries
+// it as ONE FrameVer 0x09 multicast frame whose payload is the record
+// verbatim, delivering its first topic through the public door (an
+// operator's cap of them through an authenticated one) and the rest as
+// labels every subscriber sees. Objects are either
 // synthetic (a valid BEEF-family leading marker followed by seeded bytes —
 // the fabric never parses past the marker) or the real BRC-62 specification
 // example (-encoding real), which proves verbatim carriage end to end.
@@ -107,7 +110,7 @@ func main() {
 			continue // retry this emission on the fresh connection
 		}
 		if *logHashes {
-			cid := objfmt.ContentID(obj)
+			cid := objfmt.ContentID(rec) // the plane's identity is over the record
 			log.Printf("beef-gen: sent topics=%v content_id=%x bytes=%d", topics, cid[:8], len(obj))
 		}
 		sent++
