@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  # main only: a branch with a PR is covered by the pull_request run.
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    uses: lightwebinc/ci/.github/workflows/go-host.yml@3f438e60ade351107a3d1601955ebbf34de8caf1 # v0.1.0
+    with:
+      gofmt: true
+      tidy-check: true
+
+  govulncheck:
+    uses: lightwebinc/ci/.github/workflows/govulncheck.yml@3f438e60ade351107a3d1601955ebbf34de8caf1 # v0.1.0
