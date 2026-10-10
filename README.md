@@ -1,5 +1,12 @@
 # beef-generator
 
+[![CI](https://github.com/lightwebinc/beef-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/lightwebinc/beef-generator/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/lightwebinc/beef-generator)](https://github.com/lightwebinc/beef-generator/releases)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lightwebinc/beef-generator.svg)](https://pkg.go.dev/github.com/lightwebinc/beef-generator)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+
+> Part of the [**BSV Layered Multicast**](https://github.com/lightwebinc/bsv-multicast) open-source project — see the main repository for the full architecture, design docs, and BRC specifications.
+
 Traffic generator for the BRC-148 BEEF object plane: `beef-gen` submits BEEF
 submission records (topic list + BEEF object) to a shard-proxy ingress port —
 the open tx port (8725) or the dedicated BEEF lane (8728).
@@ -29,3 +36,16 @@ See [docs/architecture.md](docs/architecture.md) and
 and [BRC-149](https://github.com/bsv-blockchain/BRCs/blob/master/transactions/0149.md);
 detailed design and rationale in the
 [bsv-multicast docs](https://github.com/lightwebinc/bsv-multicast/blob/main/docs/brc-148-shard-domain-beef-plane.md).
+
+## Requirements
+
+- Go 1.26.2 or later (the `go.mod` floor)
+- A reachable shard-proxy ingress port
+
+## Releases
+
+Releases and release notes live on [GitHub Releases](https://github.com/lightwebinc/beef-generator/releases); there is no CHANGELOG.
+
+## License
+
+Apache 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
