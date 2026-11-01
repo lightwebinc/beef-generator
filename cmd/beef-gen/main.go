@@ -10,7 +10,7 @@
 // verbatim, delivering its first topic through the public door (an
 // operator's cap of them through an authenticated one) and the rest as
 // labels every subscriber sees. Objects are either
-// synthetic (a valid BEEF-family leading marker followed by seeded bytes —
+// synthetic (a valid BEEF-family leading marker followed by seeded bytes;
 // the fabric never parses past the marker) or the real BRC-62 specification
 // example (-encoding real), which proves verbatim carriage end to end.
 //

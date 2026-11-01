@@ -4,8 +4,8 @@
 |------|---------|-------------|
 | `-addr` | `[::1]:8725` | Proxy ingress TCP address. The open tx port accepts records via the `0xBEEF` tag grammar; point at the dedicated lane (8728) to exercise flow separation |
 | `-bind` | *(empty)* | Local source address to emit from (`host` or `host:port`; a bare host gets an ephemeral port). Empty = kernel default source selection |
-| `-topics` | `tm_demo` | Comma-separated overlay topic names carried in every submission (each ≤ 64 bytes UTF-8). The wire grammar allows 1–15; the OSS proxy admits exactly 1 — multi-topic requires an authenticated policy |
-| `-encoding` | `beef` | `beef` \| `beefv2` \| `atomic` synthetic markers, or `real` — the BRC-62 specification example, sent verbatim (ignores `-object-bytes`; identical across emissions, so ingress dedup admits it once per topic list) |
+| `-topics` | `tm_demo` | Comma-separated overlay topic names carried in every submission (each ≤ 64 bytes UTF-8). The wire grammar allows 1–15 and the proxy never rejects a record for its topic count; with no submit policy installed it delivers the first topic only and carries the rest as labels (an authenticated policy raises the deliverable count) |
+| `-encoding` | `beef` | `beef` \| `beefv2` \| `atomic` synthetic markers, or `real`, the BRC-62 specification example sent verbatim (ignores `-object-bytes`; identical across emissions, so ingress dedup admits it once per topic list) |
 | `-object-bytes` | `64` | Synthetic object size (≥ 16; the trailing 8 bytes are the emission counter that keeps ContentIDs unique). The generator sets no upper bound; the object must fit the proxy's per-object ingress bound (`-beef-max-object-bytes`, default 1 MiB) |
 | `-count` | `10` | Submissions to send (0 = unlimited, bound with `-duration`) |
 | `-interval` | `50ms` | Delay between submissions |
@@ -17,6 +17,5 @@ On exit the generator prints `sent=N` for harness assertions. A submission
 failure reconnects with exponential backoff and retries the same emission; a
 malformed record is a fatal self-verify error, never sent.
 
-Deferred: a proxy-bypassing `-mode direct-multicast` (self-stamped FrameVer
-0x09 emission for listener-only tests) — the harness drives everything
-through the proxy today.
+There is no proxy-bypassing direct-multicast mode; every emission goes
+through a proxy ingress.

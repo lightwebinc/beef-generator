@@ -33,7 +33,7 @@ func TestBuildObjectMarkers(t *testing.T) {
 
 // TestRealVectorIntegrity proves the embedded BRC-62 specification example
 // decodes, carries the BEEF v1 marker, and survives the record round-trip
-// verbatim — the verbatim-carriage fixture for scenario 94.
+// verbatim: the verbatim-carriage fixture for scenario 94.
 func TestRealVectorIntegrity(t *testing.T) {
 	obj, err := hex.DecodeString(beefVectorHex)
 	if err != nil {

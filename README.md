@@ -5,10 +5,10 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/lightwebinc/beef-generator.svg)](https://pkg.go.dev/github.com/lightwebinc/beef-generator)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-> Part of the [**BSV Layered Multicast**](https://github.com/lightwebinc/bsv-multicast) open-source project — see the main repository for the full architecture, design docs, and BRC specifications.
+> Part of the [**BSV Layered Multicast**](https://github.com/lightwebinc/bsv-multicast) open-source project; see the main repository for the full architecture, design docs, and BRC specifications.
 
 Traffic generator for the BRC-148 BEEF object plane: `beef-gen` submits BEEF
-submission records (topic list + BEEF object) to a shard-proxy ingress port —
+submission records (topic list + BEEF object) to a shard-proxy ingress port:
 the open tx port (8725) or the dedicated BEEF lane (8728).
 
 It is the **reference producer** for the
