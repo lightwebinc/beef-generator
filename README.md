@@ -39,7 +39,7 @@ detailed design and rationale in the
 
 ## Requirements
 
-- Go 1.26.2 or later (the `go.mod` floor)
+- Go 1.26 or later
 - A reachable shard-proxy ingress port
 
 ## Releases
