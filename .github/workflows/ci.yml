@@ -19,6 +19,7 @@ jobs:
     with:
       gofmt: true
       tidy-check: true
+      licences-check: true
 
   govulncheck:
     uses: lightwebinc/ci/.github/workflows/govulncheck.yml@addd14064ef61ebf08d01de9b80bda61438880fb # v0.7.1
